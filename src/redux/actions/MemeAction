@@ -1,0 +1,22 @@
+import { getMemeDataAPI } from "../api/Common";
+import {
+  GET_MEME,
+  GET_MEME_SUCCESSFULL,
+  GET_MEME_FAILED,
+} from "../reducers/Common";
+
+export const getMemeData = () => async (dispatch) => {
+  dispatch(GET_MEME());
+  return new Promise((resolve, reject) => {
+    getMemeDataAPI()
+      .then((res) => {
+        //User Logged in sucessfully
+        dispatch(GET_MEME_SUCCESSFULL(res.data.memes));
+        return resolve(res);
+      })
+      .catch((err) => {
+        dispatch(GET_MEME_FAILED());
+        return reject(err);
+      });
+  });
+};
